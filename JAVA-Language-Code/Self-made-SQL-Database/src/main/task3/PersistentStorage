@@ -1,0 +1,155 @@
+package com.company;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class Main {
+
+    public void main(String[] args) {
+        File directory = new File("");
+        String databaseDirectory = directory.getAbsolutePath();
+        ArrayList<String[]> peopleList = null;
+        try {
+            peopleList = readDate(databaseDirectory, "people.tab");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        writeDataToClassPeople(peopleList);
+            peopleList.get(1)[1] = "Tom";
+            peopleList.get(0)[0] = "Id";
+        try {
+            writeDataToFile(databaseDirectory, peopleList, "people.tab");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ArrayList<String[]> shedsList = null;
+        try {
+            shedsList = readDate(databaseDirectory, "sheds.tab");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        writeDataToClassSheds(shedsList);
+
+    }
+    public ArrayList<String[]> readDate(String databaseDirectory, String filename) throws IOException {
+
+        String name = databaseDirectory + File.separator + filename;
+        File fileToOpen = new File(name);
+        ArrayList<String[]> resultList = null;
+        if (fileToOpen.exists()) {
+            FileReader reader = null;
+            try {
+                reader = new FileReader(fileToOpen);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            BufferedReader buffReader = new BufferedReader(reader);
+
+            String str = null;
+            ArrayList<String[]> peoples = new ArrayList<>();
+
+            while ((str = buffReader.readLine()) != null) {
+                System.out.println(str);
+                resultList = storeData(str, peoples);
+            }
+            buffReader.close();
+
+        }
+        //resultList.get(1)[1]="9";
+        return resultList;
+    }
+
+    //public
+    public ArrayList<String[]> storeData(String str, ArrayList<String[]> peoples) {
+        String[] data = splitData(str);
+        peoples.add(data);
+        return peoples;
+        //String i =data [0];
+
+    }
+
+    public String[] splitData(String str) {
+
+        String[] temp;
+        String delimiter = "\t";
+        temp = str.split(delimiter);
+        return temp;
+    }
+
+
+    public void writeDataToClassPeople(ArrayList<String[]> peopleList) {
+        int i = 1, j = 0;
+        ArrayList<People> peopleArrayList = new ArrayList<>();
+        for (i = 1; i < peopleList.size() - 1; i++) {
+            People people = new People();
+            for (j = 0; j < 5; j++) {
+                if (j == 0) {
+                    people.setId(Integer.parseInt(peopleList.get(i)[j]));
+                }
+                if (j == 1) {
+                    people.setName(peopleList.get(i)[j]);
+                }
+                if (j == 2) {
+                    people.setAge(Integer.parseInt(peopleList.get(i)[j]));
+                }
+                if (j == 3) {
+                    people.setEmail(peopleList.get(i)[j]);
+                    peopleArrayList.add(people);
+                }
+            }
+        }
+
+
+    }
+
+    public void writeDataToClassSheds(ArrayList<String[]> shedsList) {
+        int i = 1, j = 0;
+        ArrayList<Sheds> shedsArrayList = new ArrayList<>();
+        for (i = 1; i < shedsList.size() - 1; i++) {
+            Sheds sheds = new Sheds();
+            for (j = 0; j < 5; j++) {
+                if (j == 0) {
+                    sheds.setId(Integer.parseInt(shedsList.get(i)[j]));
+                }
+                if (j == 1) {
+                    sheds.setName(shedsList.get(i)[j]);
+                }
+                if (j == 2) {
+                    sheds.setHeight(Integer.parseInt(shedsList.get(i)[j]));
+                }
+                if (j == 3) {
+                    sheds.setPurchaserID(shedsList.get(i)[j]);
+                    shedsArrayList.add(sheds);
+                }
+            }
+        }
+
+
+    }
+
+    public void writeDataToFile(String databaseDirectory, ArrayList<String[]> resultList, String filename) throws IOException {
+        String name = databaseDirectory + File.separator + filename;
+        File fileToOpen = new File(name);
+        fileToOpen.createNewFile();
+        FileWriter writer = new FileWriter(fileToOpen);
+        for (int i = 0; i < resultList.size(); i++) {
+            for (int j = 0; j < resultList.get(i).length; j++) {
+                if (j == resultList.get(i).length - 1) {
+                    writer.write(resultList.get(i)[j]);
+                    writer.flush();
+                } else {
+                    writer.write(resultList.get(i)[j]);
+                    writer.write("\t");
+                    writer.flush();
+                }
+            }
+            writer.write("\n");
+            writer.flush();
+        }
+        writer.close();
+    }
+
+
+}
+
+

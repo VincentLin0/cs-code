@@ -1,0 +1,2 @@
+# Implement a recursive descent parser - this will report whether or not a given NLab program follows the formal grammar or not. The input file is specified via argv[1] - there is no output if the input file is valid. Elsewise, a non-zero exit is made.
+# In addition, extend the parser, so it becomes an interpreter.

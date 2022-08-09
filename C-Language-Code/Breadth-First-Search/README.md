@@ -1,0 +1,1 @@
+# Since the title does not allow a depth-first search, I chose to use Breadth-First-Search to traverse the entire board to get the resulting board.

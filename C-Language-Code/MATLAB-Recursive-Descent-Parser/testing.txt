@@ -1,0 +1,43 @@
+I inputed the github nlb test all case into the program to see if the results match the expected results.
+
+For example:
+[pd21913@it075717 final]$ rm interp
+[pd21913@it075717 final]$ rm parse
+[pd21913@it075717 final]$ make parse
+clang parse.c -Wall -Wextra -Wpedantic -Wfloat-equal -Wvla -std=c99 -Werror -O2 -o parse
+[pd21913@it075717 final]$ ./parse setprinta.nlb
+[pd21913@it075717 final]$ make interp
+cc -Wall -Wextra -Wpedantic -Wfloat-equal -Wvla -std=c99 -Werror -O2    interp.c   -o interp
+[pd21913@it075717 final]$ ./interp setprinta.nlb
+2
+4
+6
+8
+10
+[pd21913@it075717 final]$ ./interp nestedloop.nlb
+1
+2
+3
+4
+5
+2
+4
+6
+8
+10
+3
+6
+9
+12
+15
+4
+8
+12
+16
+20
+5
+10
+15
+20
+25
+
